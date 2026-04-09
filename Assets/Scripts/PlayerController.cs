@@ -4,32 +4,65 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     InputAction moveAction;
-    InputAction jumpAction;
-    InputActionMap map;
+
+
+    public float rayDistance = 0.52f;
+    public LayerMask groundLayer;
+    Vector2 checkBoxSize;
+    bool isGrounded = false;
+    bool jumpPressed = false;
+
+    public float JumpHeight;
+    Rigidbody2D rb;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        map = new InputActionMap();
+        checkBoxSize.x = GetComponent<BoxCollider2D>().size.x;
+        checkBoxSize.y = 0.1f;
         moveAction = InputSystem.actions.FindAction("Move");
-        jumpAction = InputSystem.actions.FindAction("Jump");
+        rb = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        Rigidbody2D rb = GetComponent<Rigidbody2D>();
-        rb.linearVelocity = transform.right * moveAction.ReadValue<float>();
-        RaycastHit2D rayHit;
+        Vector2 velocity = rb.linearVelocity;
 
-        if (rayHit = Physics2D.Raycast(transform.position, new Vector2(0 ,-1), 0.17f))
+        velocity.x = moveAction.ReadValue<float>();
+
+        CheckGround();
+        Debug.Log(isGrounded);
+        if (jumpPressed && isGrounded)
         {
-
-            if (jumpAction.triggered)
-            {
-                rb.linearVelocityY = 2f;
-            }
-            Debug.DrawRay(transform.position, -transform.up * rayHit.distance, Color.red);
-            Debug.Log("hit");
+            Debug.Log("Jump");
+            velocity.y = JumpHeight;
+            isGrounded = false;
         }
+        jumpPressed = false;
+        rb.linearVelocity = velocity;
+    }
+
+    void CheckGround()
+    {
+        RaycastHit2D rayHit = Physics2D.BoxCast(transform.position, checkBoxSize, 0f, Vector2.down, rayDistance, groundLayer);
+        if (rayHit.collider != null)
+        {
+            Debug.Log("Above platform");
+            isGrounded = true;
+        }
+    }
+
+    public void OnJump(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            jumpPressed = true;
+        }
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireCube(transform.position + Vector3.down * rayDistance, checkBoxSize);
     }
 }

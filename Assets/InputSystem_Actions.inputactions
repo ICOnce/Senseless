@@ -10,9 +10,9 @@
                     "name": "Move",
                     "type": "Value",
                     "id": "5b0d8a8c-55b2-40bb-9b12-ca7874661966",
-                    "expectedControlType": "Axis",
+                    "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": true
                 },
                 {
@@ -21,7 +21,7 @@
                     "id": "bca29285-260e-4304-abec-e758c27bc351",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 }
             ],
@@ -50,9 +50,9 @@
                 },
                 {
                     "name": "",
-                    "id": "19b92d50-abc9-43be-9cc1-a6c29d891973",
+                    "id": "d18bad54-9c19-439e-af70-4434cc224da9",
                     "path": "<Keyboard>/space",
-                    "interactions": "",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "Jump",
