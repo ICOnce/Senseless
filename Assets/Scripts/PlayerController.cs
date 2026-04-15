@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
     bool isGrounded = false;
     bool jumpPressed = false;
 
+    public Animator animator;
+
     public float JumpHeight;
     Rigidbody2D rb;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -28,18 +30,20 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 velocity = rb.linearVelocity;
 
+
         velocity.x = moveAction.ReadValue<float>();
 
+        animator.SetBool("IsMoving", moveAction.IsPressed());
+
         CheckGround();
-        Debug.Log(isGrounded);
         if (jumpPressed && isGrounded)
         {
-            Debug.Log("Jump");
             velocity.y = JumpHeight;
             isGrounded = false;
         }
         jumpPressed = false;
         rb.linearVelocity = velocity;
+        animator.SetBool("Jumping", !isGrounded);
     }
 
     void CheckGround()
@@ -47,7 +51,6 @@ public class PlayerController : MonoBehaviour
         RaycastHit2D rayHit = Physics2D.BoxCast(transform.position, checkBoxSize, 0f, Vector2.down, rayDistance, groundLayer);
         if (rayHit.collider != null)
         {
-            Debug.Log("Above platform");
             isGrounded = true;
         }
     }

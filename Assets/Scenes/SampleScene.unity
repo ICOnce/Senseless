@@ -667,6 +667,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
+  animator: {fileID: 1170633991}
   JumpHeight: 4
 --- !u!61 &1170633997
 BoxCollider2D:
