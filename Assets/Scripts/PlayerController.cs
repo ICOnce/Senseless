@@ -35,15 +35,34 @@ public class PlayerController : MonoBehaviour
 
         animator.SetBool("IsMoving", moveAction.IsPressed());
 
-        CheckGround();
-        if (jumpPressed && isGrounded)
+        float move = moveAction.ReadValue<float>();
+
+        if (move != 0)
         {
-            velocity.y = JumpHeight;
-            isGrounded = false;
+            GetComponent<SpriteRenderer>().flipX = move < 0;
         }
+
+        CheckGround();
+        if (isGrounded)
+        {
+            animator.SetBool("Falling", false);
+            animator.SetBool("Jumping", false);
+
+            if (jumpPressed)
+            {
+                velocity.y = JumpHeight;
+                isGrounded = false;
+                animator.SetBool("Jumping", true);
+            }
+        }
+
         jumpPressed = false;
         rb.linearVelocity = velocity;
-        animator.SetBool("Jumping", !isGrounded);
+        if (velocity.y < -0.1f)
+        {
+            animator.SetBool("Jumping", false);
+            animator.SetBool("Falling", true);
+        }
     }
 
     void CheckGround()
