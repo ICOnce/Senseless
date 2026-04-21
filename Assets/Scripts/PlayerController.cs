@@ -5,6 +5,7 @@ public class PlayerController : MonoBehaviour
 {
     InputAction moveAction;
 
+    public float speed = 1;
 
     public float rayDistance = 0.52f;
     public LayerMask groundLayer;
@@ -19,7 +20,7 @@ public class PlayerController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        checkBoxSize.x = GetComponent<BoxCollider2D>().size.x;
+        checkBoxSize.x = GetComponent<CapsuleCollider2D>().size.x;
         checkBoxSize.y = 0.1f;
         moveAction = InputSystem.actions.FindAction("Move");
         rb = GetComponent<Rigidbody2D>();
@@ -31,7 +32,7 @@ public class PlayerController : MonoBehaviour
         Vector2 velocity = rb.linearVelocity;
 
 
-        velocity.x = moveAction.ReadValue<float>();
+        velocity.x = moveAction.ReadValue<float>() * speed;
 
         animator.SetBool("IsMoving", moveAction.IsPressed());
 
@@ -67,7 +68,7 @@ public class PlayerController : MonoBehaviour
 
     void CheckGround()
     {
-        RaycastHit2D rayHit = Physics2D.BoxCast(transform.position, checkBoxSize, 0f, Vector2.down, rayDistance, groundLayer);
+        RaycastHit2D rayHit = Physics2D.BoxCast(transform.position, checkBoxSize, 0f, Vector2.down, rayDistance * transform.localScale.y, groundLayer);
         if (rayHit.collider != null)
         {
             isGrounded = true;
