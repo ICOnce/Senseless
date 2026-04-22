@@ -6,6 +6,7 @@ public class Interact : MonoBehaviour
 
     [SerializeField] public AudioClip FlowerPickupClip;
     [SerializeField] public AudioClip EnemyDiedClip;
+    
 
 
     public int PickupAmount { get; set; }
@@ -44,6 +45,19 @@ public class Interact : MonoBehaviour
             PlayEnemyDiedClip();
         }
 
+        if (PickupAmount == 1)
+        {
+            this.GetComponent<PlayerController>().speed = 2.5f;
+            this.GetComponent<PlayerController>().JumpHeight = 10f;
+            this.GetComponent<FOV>().viewRadius = 5f;
+        }
+        else if (PickupAmount == 2)
+        {
+
+            this.GetComponent<PlayerController>().speed = 3f;
+            this.GetComponent<PlayerController>().JumpHeight = 12f;
+            this.GetComponent<FOV>().viewRadius = 7.5f;
+        }
         Destroy(other.gameObject);
     }
 }

@@ -23,8 +23,6 @@ public class FOV : MonoBehaviour
         Collider2D[] prevArr = objectsInRange;
         objectsInRange = Physics2D.OverlapCircleAll(transform.position, viewRadius, obstacleMask);
 
-        Debug.Log(objectsInRange.Length);
-
         foreach(Collider2D obj in prevArr)
         {
             if (!objectsInRange.Contains(obj))
