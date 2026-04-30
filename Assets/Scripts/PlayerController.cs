@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("Falling", false);
             animator.SetBool("Jumping", false);
 
-            if (jumpPressed)
+            if (jumpPressed)    
             {
                 velocity.y = JumpHeight;
                 isGrounded = false;
